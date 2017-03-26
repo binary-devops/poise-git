@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-poise_git_client 'git'
-
 # Test SSH deploy key. Go ahead and scrape it, won't get you much.
 # Pubkey ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCk2Y0Vj3oWr5oyo2ekL0V7Tj9/vNBjH6AiO/zfIc+7dR1KaCeCkx5GRhP/XxaiSn3Fxl1JSpBswd+Oue9SJ16nuQ2eUrK5zzN+GRsz4DfqvczmDLGHrlND3FpE+GbCMbmXObYoki9LuysrYVWfye4Rc5ICm+rSqtD+QB8rUguqXKu9tVVx9ug22P5s5OxcTCOZRJsz4U++64coD8X3P++6icGemXZDUUR5B2oWoMzXafbOC1Oo0aStAxEew/kfs3hFmdfmMdC9KAilqPxY1LtqHhMB0rdqynaAc4r1HKoSbAGdcwrJgd2TV8eoB25ydvzZwnOhLdO5Cm8Od63ovEUR
 DEPLOY_KEY = <<-EOH

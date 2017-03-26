@@ -103,6 +103,17 @@ module PoiseGit
           end
         end
 
+        # Hook to force the git install via recipe if needed.
+        def after_created
+          if !parent_git && node['poise-git']['default_recipe']
+            # Use the default recipe to give us a parent the next time we ask.
+            run_context.include_recipe(node['poise-git']['default_recipe'])
+            # Force it to re-expand the cache next time.
+            @parent_git = nil
+          end
+          super
+        end
+
       end
 
       # The default provider for the `poise_git` resource.
