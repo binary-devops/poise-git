@@ -14,14 +14,23 @@
 # limitations under the License.
 #
 
-require 'poise_git/resources/poise_git_client'
-require 'poise_git/resources/poise_git'
+require 'spec_helper'
 
-
-module PoiseGit
-  # Chef resources and providers for poise-git.
-  #
-  # @since 1.0.0
-  module Resources
+describe PoiseGit::Resources::PoiseGit do
+  recipe do
+    poise_git_client 'git'
+    poise_git '/test' do
+      user 'root'
+      repository 'https://example.com/test.git'
+      revision 'd44ec06d0b2a87732e91c005ed2048c824fd63ed'
+      deploy_key 'secretkey'
+    end
   end
+
+  before do
+    # Don't actually run the real thing
+    allow_any_instance_of(described_class::Provider).to receive(:action_sync).and_return(nil)
+  end
+
+  it { run_chef }
 end

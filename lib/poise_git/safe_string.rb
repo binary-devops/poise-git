@@ -14,14 +14,12 @@
 # limitations under the License.
 #
 
-require 'poise_git/resources/poise_git_client'
-require 'poise_git/resources/poise_git'
-
 
 module PoiseGit
-  # Chef resources and providers for poise-git.
-  #
-  # @since 1.0.0
-  module Resources
+  # A string that won't be shown in Chef error output
+  class SafeString < String
+    def to_text
+      '"suppressed sensitive value"'
+    end
   end
 end

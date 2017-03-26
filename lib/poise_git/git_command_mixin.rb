@@ -14,14 +14,24 @@
 # limitations under the License.
 #
 
-require 'poise_git/resources/poise_git_client'
-require 'poise_git/resources/poise_git'
+require 'poise/utils'
+require 'poise_languages'
 
 
 module PoiseGit
-  # Chef resources and providers for poise-git.
+  # Mixin for resources and providers which run Git commands.
   #
   # @since 1.0.0
-  module Resources
+  module GitCommandMixin
+    include Poise::Utils::ResourceProviderMixin
+
+    # Mixin for resources which run Git commands.
+    module Resource
+      include PoiseLanguages::Command::Mixin::Resource(:git, runtime: :poise_git_client)
+    end
+
+    module Provider
+      include PoiseLanguages::Command::Mixin::Provider(:git)
+    end
   end
 end
