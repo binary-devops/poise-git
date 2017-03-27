@@ -132,11 +132,6 @@ module PoiseGit
           new_resource.ssh_wrapper(new_resource.ssh_wrapper_path) if new_resource.deploy_key
         end
 
-        # @api private
-        def whyrun_supported?
-          false # Just not dealing with this right now
-        end
-
         # Hack our special login in before load_current_resource runs because that
         # needs access to the git remote.
         #
