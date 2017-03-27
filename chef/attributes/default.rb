@@ -16,3 +16,11 @@
 
 # Default recipe to use to install git.
 default['poise-git']['default_recipe'] = 'poise-git'
+
+# Default inversion options.
+default['poise-git']['provider'] = 'auto'
+default['poise-git']['options'] = {}
+
+# Attributes for recipe[poise-git]. All values are nil because the actual
+# defaults live in the resource.
+default['poise-git']['recipe']['version'] = nil

@@ -14,4 +14,9 @@
 # limitations under the License.
 #
 
-poise_git_client 'git'
+poise_git_client 'git' do
+  node['poise-git']['recipe'].each do |key, value|
+    # Skip nils, use false if you want to disable something.
+    send(key, value) unless value.nil?
+  end
+end
