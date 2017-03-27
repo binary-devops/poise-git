@@ -16,6 +16,7 @@
 
 require 'chef/platform/provider_priority_map'
 
+require 'poise_git/git_client_providers/dummy'
 require 'poise_git/git_client_providers/system'
 
 
@@ -28,6 +29,7 @@ module PoiseGit
 
     # Set up priority maps
     Chef::Platform::ProviderPriorityMap.instance.priority(:poise_git_client, [
+      PoiseGit::GitClientProviders::Dummy,
       PoiseGit::GitClientProviders::System,
     ])
   end
