@@ -68,6 +68,7 @@ end
 # Test using a file path for the deploy key.
 file '/test4.key' do
   content DEPLOY_KEY
+  mode '600'
   sensitive true
 end
 
