@@ -88,7 +88,7 @@ module PoiseGit
         # @return [Boolean]
         def deploy_key_is_local?(key=nil)
           key ||= deploy_key
-          key && key[0] == '/'
+          key && key =~ /^(\/|[a-zA-Z]:)/
         end
 
         # Path to deploy key.
