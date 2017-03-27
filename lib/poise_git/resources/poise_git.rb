@@ -90,7 +90,7 @@ module PoiseGit
           key ||= deploy_key
           # Try to be mindful of Windows-y paths here even though they almost
           # certainly won't actually work later on with ssh.
-          key && key =~ /^(\/|[a-zA-Z]:)/
+          key && key =~ /\A(\/|[a-zA-Z]:)/
         end
 
         # Path to deploy key.
