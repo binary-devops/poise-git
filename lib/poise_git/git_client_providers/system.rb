@@ -24,6 +24,7 @@ module PoiseGit
   module GitClientProviders
     # A provider for `poise_git_client` to install from distro packages.
     #
+    # @since 1.0.0
     # @see PoiseGit::Resources::PoiseGitClient::Resource
     # @provides poise_git_client
     class System < Base
@@ -36,24 +37,35 @@ module PoiseGit
 
       # Output value for the Git binary we are installing.
       def git_binary
+        # What should this be for OmniOS and SmartOS?
         "/usr/bin/git"
       end
 
       private
 
+      # Install git from system packages.
+      #
+      # @return [void]
       def install_git
         install_system_packages do
+          # Unlike language-ish packages, we don't need a headers package.
           dev_package false
         end
       end
 
+      # Remove git from system packages.
+      #
+      # @return [void]
       def uninstall_git
         uninstall_system_packages do
+          # Unlike language-ish packages, we don't need a headers package.
           dev_package false
         end
       end
 
       def system_package_candidates(version)
+        # This is kind of silly, could use a refactor in the mixin but just
+        # moving on for right now.
         node.value_for_platform(self.class.packages) || %w{git}
       end
 
