@@ -60,6 +60,23 @@ describe PoiseGit::Resources::PoiseGit do
     it { expect(chef_run.poise_git('/test').to_text).to include 'deploy_key "suppressed sensitive value"' }
   end # /context with in-line deploy key
 
+  context 'with in-line deploy key with embedded newlines' do
+    # Reversion test for a weird bug that only triggers on SSH keys that have a
+    # line starting with /.
+    recipe do
+      poise_git_client 'git'
+      poise_git '/test' do
+        repository 'https://example.com/test.git'
+        revision 'd44ec06d0b2a87732e91c005ed2048c824fd63ed'
+        deploy_key "secretkey\n/foo"
+      end
+    end
+
+    it { is_expected.to render_file(cache_path('poise_git_deploy_2089348824')).with_content("secretkey\n/foo") }
+    it { is_expected.to render_file(cache_path('poise_git_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -o "StrictHostKeyChecking=no" -i "#{cache_path('poise_git_deploy_2089348824')}" $@\n}) }
+    it { expect(chef_run.poise_git('/test').to_text).to include 'deploy_key "suppressed sensitive value"' }
+  end # /context with in-line deploy key with embedded newlines
+
   context 'with path deploy key' do
     recipe do
       poise_git_client 'git'
