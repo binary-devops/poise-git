@@ -88,6 +88,8 @@ module PoiseGit
         # @return [Boolean]
         def deploy_key_is_local?(key=nil)
           key ||= deploy_key
+          # Try to be mindful of Windows-y paths here even though they almost
+          # certainly won't actually work later on with ssh.
           key && key =~ /^(\/|[a-zA-Z]:)/
         end
 
