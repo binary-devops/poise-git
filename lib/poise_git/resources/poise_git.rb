@@ -209,23 +209,42 @@ module PoiseGit
           end
         end
 
-        # Override the #git method from the base class to run via the command
-        # mixin's shell out helper. Also note that in the MRO is a copy of the
-        # #git from the DSL, so don't ever call super here or weird things will
-        # happen.
+        # Patch back in the `#git` from the git provider. This otherwise conflicts
+        # with the `#git` defined by the DSL, which gets included in such a way
+        # that the DSL takes priority.
         #
         # @api private
-        # @param args [Array<String, nil, Array<String, nil>>] Git command arguments to run.
-        # @param run_opts [Hash<String, Object>] Mixlib::ShellOut options.
-        # @return [Mixlib::ShellOut]
-        def git(*args, **run_opts)
-          # Remove nils and flatten for compat with how core uses this method.
-          args.compact!
-          args.flatten!
-          reparsed_args = Shellwords.split(args.join(' '))
-          Chef::Log.debug("[#{new_resource}] running #{reparsed_args.inspect}")
-          git_shell_out!(*reparsed_args, run_options(run_opts))
+        def git(*args, &block)
+          self.class.superclass.instance_method(:git).bind(self).call(*args, &block)
         end
+
+        # Trick all shell_out related things in the base class in to using
+        # my git_shell_out instead.
+        #
+        # @api private
+        def shell_out(*cmd, **options)
+          if @shell_out_hack_inner
+            # This is the real call.
+            super
+          else
+            # This ia call we want to intercept and send to our method.
+            begin
+              @shell_out_hack_inner = true
+              # Remove nils and flatten for compat with how core uses this method.
+              cmd.compact!
+              cmd.flatten!
+              # Reparse the command to get a clean array.
+              cmd = Shellwords.split(cmd.join(' '))
+              # We'll add the git command back in ourselves.
+              cmd.shift if cmd.first == 'git'
+              # Push the yak stack.
+              git_shell_out(*cmd, **options)
+            ensure
+              @shell_out_hack_inner = false
+            end
+          end
+        end
+
       end
 
     end

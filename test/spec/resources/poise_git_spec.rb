@@ -130,7 +130,7 @@ describe PoiseGit::Resources::PoiseGit do
 
     it do
       fake_cmd = double(error!: nil, stdout: "d44ec06d0b2a87732e91c005ed2048c824fd63ed\tHEAD\n")
-      expect_any_instance_of(described_class::Provider).to receive(:poise_shell_out).with(%w{/git ls-remote https://example.com/test.git HEAD}, log_tag: 'poise_git[/test]', timeout: 900, environment: {}).and_return(fake_cmd)
+      expect_any_instance_of(described_class::Provider).to receive(:poise_shell_out).with(%w{/git ls-remote https://example.com/test.git HEAD}, kind_of(Hash)).and_return(fake_cmd)
       run_chef
     end
   end # /context without an explicit revision
