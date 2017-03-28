@@ -40,3 +40,10 @@ describe file('/test4/README.md') do
   its(:content) { is_expected.to include('repo=private_test_repo') }
   its(:content) { is_expected.to include('branch=release') }
 end
+
+describe file('/test5/README.md') do
+  it { is_expected.to be_a_file }
+  it { is_expected.to be_owned_by('poise') }
+  its(:content) { is_expected.to include('repo=private_test_repo') }
+  its(:content) { is_expected.to include('branch=master') }
+end

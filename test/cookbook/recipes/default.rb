@@ -77,3 +77,20 @@ poise_git '/test4' do
   revision 'release'
   deploy_key '/test4.key'
 end
+
+# Test deploying as a non-root user.
+user 'poise' do
+  system true
+end
+
+directory '/test5' do
+  mode '777'
+  owner 'poise'
+end
+
+poise_git '/test5' do
+  repository 'git@github.com:coderanger/private_test_repo.git'
+  revision 'master'
+  deploy_key DEPLOY_KEY
+  user 'poise'
+end
