@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+require 'shellwords'
 require 'zlib'
 
 require 'chef/provider/git'
@@ -221,12 +222,9 @@ module PoiseGit
           # Remove nils and flatten for compat with how core uses this method.
           args.compact!
           args.flatten!
-          # The core code passes things in with an incredibly ham-fisted attempt
-          # at shell quoting. For now, just undo it. This strips an outer pair
-          # of double quotes.
-          args.map! {|arg| arg[/("?)(.*)\1/, 2] }
-          Chef::Log.debug("[#{new_resource}] running #{args.inspect}")
-          git_shell_out!(*args, run_options(run_opts))
+          reparsed_args = Shellwords.split(args.join(' '))
+          Chef::Log.debug("[#{new_resource}] running #{reparsed_args.inspect}")
+          git_shell_out!(*reparsed_args, run_options(run_opts))
         end
       end
 
