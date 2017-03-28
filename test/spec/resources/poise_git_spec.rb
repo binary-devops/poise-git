@@ -107,6 +107,22 @@ describe PoiseGit::Resources::PoiseGit do
     it { expect(chef_run.poise_git('/test').to_text).to include 'deploy_key "C:\\\\mykey"' }
   end # /context with path deploy key on Windows
 
+  context 'with strict SSH' do
+    recipe do
+      poise_git_client 'git'
+      poise_git '/test' do
+        repository 'https://example.com/test.git'
+        revision 'd44ec06d0b2a87732e91c005ed2048c824fd63ed'
+        deploy_key 'secretkey'
+        strict_ssh true
+      end
+    end
+
+    it { is_expected.to render_file(cache_path('poise_git_deploy_2089348824')).with_content('secretkey') }
+    it { is_expected.to render_file(cache_path('poise_git_wrapper_2089348824')).with_content(%Q{#!/bin/sh\n/usr/bin/env ssh -i "#{cache_path('poise_git_deploy_2089348824')}" $@\n}) }
+    it { expect(chef_run.poise_git('/test').to_text).to include 'deploy_key "suppressed sensitive value"' }
+  end # /context with strict SSH
+
   context 'with no parent' do
     recipe do
       poise_git '/test' do
