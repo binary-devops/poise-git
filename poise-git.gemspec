@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.version = PoiseGit::VERSION
   spec.authors = ['Noah Kantrowitz']
   spec.email = %w{noah@coderanger.net}
-  spec.description = 'A Chef cookbook for installing a C compiler and build tools.'
+  spec.description = 'A Chef cookbook for installing and using Git.'
   spec.summary = spec.description
   spec.homepage = 'https://github.com/poise/poise-git'
   spec.license = 'Apache 2.0'
@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'chef', '>= 12.1', '< 14'
   spec.add_dependency 'halite', '~> 1.1'
   spec.add_dependency 'poise', '~> 2.6'
-  spec.add_dependency 'poise-languages'
+  spec.add_dependency 'poise-languages', '~> 2.1'
 
   spec.add_development_dependency 'poise-boiler', '~> 1.6'
 end
