@@ -36,7 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'chef', '>= 12.1', '< 14'
   spec.add_dependency 'halite', '~> 1.1'
   spec.add_dependency 'poise', '~> 2.6'
-  # spec.add_dependency 'poise-msys2'
   spec.add_dependency 'poise-languages'
 
   spec.add_development_dependency 'poise-boiler', '~> 1.6'
