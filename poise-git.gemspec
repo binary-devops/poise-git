@@ -26,7 +26,8 @@ Gem::Specification.new do |spec|
   spec.description = 'A Chef cookbook for installing and using Git.'
   spec.summary = spec.description
   spec.homepage = 'https://github.com/poise/poise-git'
-  spec.license = 'Apache 2.0'
+  spec.license = 'Apache-2.0'
+  spec.metadata['platforms'] = 'amazon arch centos debian fedora gentoo omnios opensuse raspbian redhat smartos suse ubuntu'
 
   spec.files = `git ls-files`.split($/)
   spec.executables = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
